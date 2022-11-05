@@ -104,7 +104,7 @@ All attempted legal moves will be logged to a text file which you can find in th
 For older versions of the game, visit the github link below:\
 https://github.com/Alieyeh/PegSolitaire/tree/GUI \
 The GUI branch is the version with a graphical interface and the simple branch is entirely text based.
-The User Guide file is in the main branch. \
+The User Guide (README.md) file is in the main branch. \
 The user guide only covers the instructions for the graphic version of the game. The text based version does not need pygame and the run instructions are the same. Guidance for playing the game will be printed to your terminal once you run the text based version of the game.
 
 
