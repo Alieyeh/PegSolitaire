@@ -24,6 +24,7 @@ class Board:
         self.number_of_pegs = 32
         self.error_message = ''
         self.my_font = pygame.font.SysFont('Times New Roman', 25)
+        self.moves = []
 
     def not_in_board(self, loc: Location):
         """
@@ -84,13 +85,14 @@ class Board:
                   [1, 1, 1, 1, 1, 1, 1],
                   [' ', ' ', 1, 1, 1, ' ', ' '],
                   [' ', ' ', 1, 1, 1, ' ', ' ']]
+        self.moves = []
 
     def move_peg(self, loc: Location, des: Destination,
                  win, load_btn, restart_btn):
         """
         Checks to see if the move made is legal or not.
         Sets additional error message in the case of
-        certain transgressions.
+        certain transgressions. Saves legal moves for log.
 
         Params:
         ------
@@ -123,6 +125,8 @@ class Board:
                 self.b[des.x][des.y + 1] = 0
             elif des.is_down(loc):
                 self.b[des.x][des.y - 1] = 0
+            self.moves.append(loc)
+            self.moves.append(des)
 
             # Drawing board and decrementing number of pegs left
             self.show_board()
@@ -171,25 +175,41 @@ class Board:
             print("Peg unselected")
             return False
         elif self.not_in_board(des):
-            self.error_message = "Move not allowed, Destination not in board"
+            self.error_message = "Destination not in board"
             print("Move not allowed, Destination not in board")
             return False
         elif not self.is_peg(loc):
-            self.error_message = "peg location empty"
-            print("peg location empty")
+            self.error_message = "Peg location is empty"
+            print("peg location is empty")
             return False
         elif self.is_full(des.x, des.y):
-            self.error_message = "Move not allowed, Destination is full"
+            self.error_message = "Destination is full"
             print("Move not allowed, Destination is full")
             return False
-        elif des.is_left(loc) and self.is_full(des.x + 1, des.y):
-            return True
-        elif des.is_right(loc) and self.is_full(des.x - 1, des.y):
-            return True
-        elif des.is_up(loc) and self.is_full(des.x, des.y + 1):
-            return True
-        elif des.is_down(loc) and self.is_full(des.x, des.y - 1):
-            return True
+        elif des.is_left(loc):
+            if self.is_full(des.x + 1, des.y):
+                return True
+            else:
+                self.error_message = "No peg between location and destination"
+                print("No peg between location and destination")
+        elif des.is_right(loc):
+            if self.is_full(des.x - 1, des.y):
+                return True
+            else:
+                self.error_message = "No peg between location and destination"
+                print("No peg between location and destination")
+        elif des.is_up(loc):
+            if self.is_full(des.x, des.y + 1):
+                return True
+            else:
+                self.error_message = "No peg between location and destination"
+                print("No peg between location and destination")
+        elif des.is_down(loc):
+            if self.is_full(des.x, des.y - 1):
+                return True
+            else:
+                self.error_message = "No peg between location and destination"
+                print("No peg between location and destination")
         else:
             self.error_message = "Move not allowed"
             return False

@@ -32,7 +32,6 @@ def main():
     run = True
     pygame.init()
     clock = pygame.time.Clock()
-    moves = []
     file_name = ''
     extra = 0
     peg_picked = False
@@ -54,8 +53,8 @@ def main():
 
             # Closes game (ends main loop) and logs moves
             if event.type == pygame.QUIT:
-                if len(moves) > 0:
-                    FileHandler().log_game(moves)
+                if len(board.moves) > 0:
+                    FileHandler().log_game(board.moves)
                 run = False
 
             # Checks for button press events
@@ -74,7 +73,6 @@ def main():
                             board_x, board_y = board.calculate_screen_pos(m.x, m.y)
                             if is_loc:
                                 loc = m
-                                moves.append(loc)
                                 if board.is_peg(loc):
                                     peg_picked = True
                                     pygame.draw.circle(WIN, Cons.ORANGE, (board_x, board_y),
@@ -83,16 +81,14 @@ def main():
                             else:
                                 peg_picked = False
                                 des = m
-                                moves.append(des)
                                 board.move_peg(loc, des, WIN, load_btn, restart_btn)
                             is_loc = not is_loc
 
                 # Logs previous game and restarts game if restart button was clicked
                 if restart_btn.rect.collidepoint((x, y)):
-                    if len(moves) > 0:
-                        print(len(moves))
-                        FileHandler().log_game(moves)
-                    moves = []
+                    if len(board.moves) > 0:
+                        print(len(board.moves))
+                        FileHandler().log_game(board.moves)
                     is_loc = True
                     peg_picked = False
                     file_name = ''
@@ -111,7 +107,6 @@ def main():
                         if is_loc:
                             loc = Location(col, row)
                             if board.is_peg(loc):
-                                moves.append(loc)
                                 pygame.draw.circle(WIN, Cons.ORANGE, (board_x, board_y),
                                                    Cons.RADIUS)
                                 pygame.display.update()
@@ -119,7 +114,6 @@ def main():
                                 is_loc = not is_loc
                         else:
                             des = Destination(col, row)
-                            moves.append(des)
                             board.move_peg(loc, des, WIN, load_btn, restart_btn)
                         is_loc = not is_loc
 
