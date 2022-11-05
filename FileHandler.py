@@ -1,6 +1,8 @@
 from Destination import Destination
 from Location import Location
 from datetime import datetime
+import Constants as Cons
+import pygame
 import re
 
 
@@ -15,27 +17,36 @@ class FileHandler:
         Initialises the FileHandler class by assigning the values
         of file name (the default solution file) and is_loc (shows
         if the location being read is the peg's current location or
-        destination).
+        destination) as well as message (what will be written to the
+        screen) and my_font.
         """
         self.is_loc = True
         self.file_name = 'partial_solution.txt'
+        self.message = ''
+        self.my_font = pygame.font.SysFont('Times New Roman', 25)
 
-    def get_moves_from_file(self):
+    def get_moves_from_file(self, file_name: str, win: pygame.display):
         """
         Reads file of moves and returns the moves as a list
-        of locations and destinations. If file has an issue it
-        will return an empty list.
+        of locations and destinations. If file name is empty
+        it will load the partial solution file. If file has
+        an issue it will return an empty list.
+
+        Params:
+        --------
+        file_name: string, mandatory.
+            Name and address of the file that will be read.
+
+        win: pygame.display, mandatory.
+            The main window (screen) of the game.
 
         Returns:
         --------
         list
         """
         my_moves = []
-        choose_file = input("Would you like to choose file? (Y/N)")
-        if choose_file == 'y' or choose_file == 'Y':
-            self.file_name = input("Enter file path and name: ")
-        elif choose_file == 'n' or choose_file == 'N':
-            pass
+        if file_name != '':
+            self.file_name = file_name
         else:
             print("Did not choose, will load partial_solution.txt")
         try:
@@ -46,8 +57,8 @@ class FileHandler:
                 # likely to be due to an incomplete move so
                 # the last set of coordinates will be removed.
                 if len(entries) % 2 != 0:
-                    print("incomplete move in file")
                     entries.pop()
+                    print("incomplete move in file")
 
                 # Checks if entries match the correct format,
                 # lets user know if not and appends as location
@@ -61,10 +72,12 @@ class FileHandler:
                             my_moves.append(Destination(int(line[0]), int(line[1])))
                         self.is_loc = not self.is_loc
                     else:
-                        print("file content is incorrect")
+                        self.message = "file content is incorrect"
+                        self.write_message(win)
                         return []
         except IOError:
-            print("Could not open/read/find file")
+            self.message = "Could not open/read/find file"
+            self.write_message(win)
         return my_moves
 
     def log_game(self, moves: list):
@@ -87,3 +100,20 @@ class FileHandler:
                 f.write(mov)
         except FileNotFoundError:
             print("file not found")
+
+    def write_message(self, win):
+        """
+        Writes a message to the screen.
+
+        Params:
+        ------
+
+        win: pygame.display, mandatory.
+            The main window (screen) of the game.
+        """
+        text_surface = self.my_font.render(self.message,
+                                           False, Cons.ORANGE)
+        win.blit(text_surface, (Cons.X_MARGIN // 2, Cons.Y_MARGIN // 2))
+        pygame.display.flip()
+        print(self.message)
+        self.message = ''

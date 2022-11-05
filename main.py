@@ -33,12 +33,16 @@ def main():
     pygame.init()
     clock = pygame.time.Clock()
     moves = []
+    file_name = ''
+    extra = 0
+    peg_picked = False
     is_loc = True
     loc = Location(4, 4)
     des = Destination(4, 4)
     board = Board()
     board.show_board()
     board.draw_board(WIN, load_btn, restart_btn)
+    my_font = pygame.font.SysFont('FreeMono, Monospace', 17)
 
     # Main game loop
     while run:
@@ -60,24 +64,30 @@ def main():
 
                 # Loads file and shows moves if load file button was clicked
                 if load_btn.rect.collidepoint((x, y)):
-                    my_moves = FileHandler().get_moves_from_file()
-                    for m in my_moves:
-                        time.sleep(0.5)
-                        board_x, board_y = board.calculate_screen_pos(m.x, m.y)
-                        if is_loc:
-                            loc = m
-                            if board.is_peg(loc):
-                                moves.append(loc)
-                                pygame.draw.circle(WIN, Cons.ORANGE, (board_x, board_y),
-                                                   Cons.RADIUS)
-                                pygame.display.update()
+                    # check if peg is selected, only read from file if it isn't
+                    if is_loc:
+                        my_moves = FileHandler().get_moves_from_file(file_name, WIN)
+                        file_name = ''
+                        extra = 0
+                        for m in my_moves:
+                            time.sleep(0.3)
+                            board_x, board_y = board.calculate_screen_pos(m.x, m.y)
+                            if is_loc:
+                                loc = m
+                                if board.is_peg(loc):
+                                    moves.append(loc)
+                                    peg_picked = True
+                                    pygame.draw.circle(WIN, Cons.ORANGE, (board_x, board_y),
+                                                       Cons.RADIUS)
+                                    pygame.display.update()
+                                else:
+                                    is_loc = not is_loc
                             else:
-                                is_loc = not is_loc
-                        else:
-                            des = m
-                            moves.append(des)
-                            board.move_peg(loc, des, WIN, load_btn, restart_btn)
-                        is_loc = not is_loc
+                                peg_picked = False
+                                des = m
+                                moves.append(des)
+                                board.move_peg(loc, des, WIN, load_btn, restart_btn)
+                            is_loc = not is_loc
 
                 # Logs previous game and restarts game if restart button was clicked
                 if restart_btn.rect.collidepoint((x, y)):
@@ -86,6 +96,9 @@ def main():
                         FileHandler().log_game(moves)
                     moves = []
                     is_loc = True
+                    peg_picked = False
+                    file_name = ''
+                    extra = 0
                     board.number_of_pegs = 32
                     board.set_board()
                     board.show_board()
@@ -111,6 +124,31 @@ def main():
                             moves.append(des)
                             board.move_peg(loc, des, WIN, load_btn, restart_btn)
                         is_loc = not is_loc
+
+            # Gets file name
+            if event.type == pygame.KEYDOWN:
+                if event.key == pygame.K_DELETE or event.key == pygame.K_BACKSPACE:
+                    file_name = file_name[:-1]
+                    if extra > 0:
+                        extra = extra - 1
+                elif event.key == pygame.K_SPACE:
+                    pass
+                else:
+                    file_name += event.unicode
+                input_rect = pygame.Rect(Cons.WIDTH - Cons.X_MARGIN * 1.6,
+                                         Cons.HEIGHT - Cons.Y_MARGIN * 2.5,
+                                         Cons.X_MARGIN + 50, Cons.Y_MARGIN - 40)
+                pygame.draw.rect(WIN, Cons.BLACK, input_rect)
+                pygame.draw.rect(WIN, Cons.GREEN, input_rect, 2)
+                if len(file_name) > 18:
+                    extra = len(file_name) - 18
+                file_surface = my_font.render(file_name[extra:], True,
+                                              Cons.WHITE)
+                WIN.blit(file_surface, (input_rect.x + 5, input_rect.y + 2))
+                if peg_picked:
+                    pygame.draw.circle(WIN, Cons.ORANGE, (board_x, board_y),
+                                       Cons.RADIUS)
+                pygame.display.update()
 
     # Ends game when main loop has ended
     pygame.quit()

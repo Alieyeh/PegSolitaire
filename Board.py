@@ -135,15 +135,14 @@ class Board:
                                                    False, Cons.WHITE)
                 win.blit(text_surface, (Cons.X_MARGIN, 0))
                 pygame.display.flip()
-                print('Game won!')
+                print('Game won!✴︎')
         else:
 
             # Writing error message if move is not legal
             self.draw_board(win, load_btn, restart_btn)
-            text_surface = self.my_font.render('Move not allowed ' +
-                                               self.error_message,
+            text_surface = self.my_font.render(self.error_message,
                                                False, Cons.ORANGE)
-            win.blit(text_surface, (Cons.X_MARGIN, Cons.Y_MARGIN // 2))
+            win.blit(text_surface, (Cons.X_MARGIN // 2, Cons.Y_MARGIN // 2))
             pygame.display.flip()
             print('Move not allowed')
             self.error_message = ''
@@ -168,16 +167,16 @@ class Board:
         Boolean
         """
         if des.x == loc.x and des.y == loc.y:
-            self.error_message = "Destination same as location"
-            print("Destination same as location")
+            self.error_message = "Peg unselected"
+            print("Peg unselected")
             return False
         elif self.not_in_board(des):
-            self.error_message = "Destination not in board"
-            print("Destination not in board")
+            self.error_message = "Move not allowed, Destination not in board"
+            print("Move not allowed, Destination not in board")
             return False
         elif self.is_full(des.x, des.y):
-            self.error_message = "Destination is full"
-            print("Destination is full")
+            self.error_message = "Move not allowed, Destination is full"
+            print("Move not allowed, Destination is full")
             return False
         elif des.is_left(loc) and self.is_full(des.x + 1, des.y):
             return True
@@ -188,6 +187,7 @@ class Board:
         elif des.is_down(loc) and self.is_full(des.x, des.y - 1):
             return True
         else:
+            self.error_message = "Move not allowed"
             return False
 
     def calculate_screen_pos(self, row: int, col: int):
