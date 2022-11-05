@@ -133,7 +133,7 @@ class Board:
             if self.check_win():
                 text_surface = self.my_font.render('Game Won!',
                                                    False, Cons.WHITE)
-                win.blit(text_surface, (Cons.X_MARGIN, 0))
+                win.blit(text_surface, (Cons.X_MARGIN, Cons.Y_MARGIN // 2))
                 pygame.display.flip()
                 print('Game won!✴︎')
         else:
@@ -173,6 +173,10 @@ class Board:
         elif self.not_in_board(des):
             self.error_message = "Move not allowed, Destination not in board"
             print("Move not allowed, Destination not in board")
+            return False
+        elif not self.is_peg(loc):
+            self.error_message = "peg location empty"
+            print("peg location empty")
             return False
         elif self.is_full(des.x, des.y):
             self.error_message = "Move not allowed, Destination is full"

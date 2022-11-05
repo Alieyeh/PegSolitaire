@@ -64,24 +64,22 @@ def main():
 
                 # Loads file and shows moves if load file button was clicked
                 if load_btn.rect.collidepoint((x, y)):
-                    # check if peg is selected, only read from file if it isn't
+                    # checks if peg is selected, only reads from file if it isn't
                     if is_loc:
                         my_moves = FileHandler().get_moves_from_file(file_name, WIN)
                         file_name = ''
                         extra = 0
                         for m in my_moves:
-                            time.sleep(0.3)
+                            time.sleep(0.2)
                             board_x, board_y = board.calculate_screen_pos(m.x, m.y)
                             if is_loc:
                                 loc = m
+                                moves.append(loc)
                                 if board.is_peg(loc):
-                                    moves.append(loc)
                                     peg_picked = True
                                     pygame.draw.circle(WIN, Cons.ORANGE, (board_x, board_y),
                                                        Cons.RADIUS)
                                     pygame.display.update()
-                                else:
-                                    is_loc = not is_loc
                             else:
                                 peg_picked = False
                                 des = m
@@ -125,7 +123,7 @@ def main():
                             board.move_peg(loc, des, WIN, load_btn, restart_btn)
                         is_loc = not is_loc
 
-            # Gets file name
+            # Gets file destination/name from typed out user input
             if event.type == pygame.KEYDOWN:
                 if event.key == pygame.K_DELETE or event.key == pygame.K_BACKSPACE:
                     file_name = file_name[:-1]
