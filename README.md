@@ -70,7 +70,7 @@ The wining condition is having only one peg left on the board, with the location
 
 
 <div>
-<img src="img/Game_won.png" width="400"/>
+<img src="img/Game_Won.png" width="400"/>
 </div>
 
 
