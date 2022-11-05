@@ -74,7 +74,7 @@ The wining condition is having only one peg left on the board, with the location
 </div>
 
 
-If you start typing, what you write will be considered as the address and name of the game file you wish to load. If you move a peg the writing space disappears, but if you press the SPACE button or start typing again the file address and name will reappear. If you do not type a file location and name before pressing the load button a predefined partial solution file will be loaded. A file named solution1.txt is also available and if you type its name and press the load file button it will play out a complete solution for you. You do not need to specify a location if your file is in the same directory as main.py.
+If you start typing, what you write will be considered as the address and name of the game file you wish to load. If you move a peg the writing space disappears, but if you press the SPACE button or start typing again the file address and name will reappear. The use of backspace/delete is also available. If you do not type a file location and name before pressing the load button a predefined partial solution file will be loaded. A file named solution1.txt is also available and if you type its name and press the load file button it will play out a complete solution for you. You do not need to specify a location if your file is in the same directory as main.py.
 
 <table><tr>
 <td> <img src="img/name.png" alt="Drawing" style="width: 400px;"/> </td>
@@ -82,8 +82,7 @@ If you start typing, what you write will be considered as the address and name o
 </tr></table>
 
 Your file location and name cannot have any spaces between them. You cannot press the load button if you have a selected peg (you must either move or unselect it first). The game cannot be quit while the game file is loading.
-Your file must contain a list of complete moves.\
-The content of your solution file must be in the <X, Y> board coordinate format like the example below:
+Your file must contain a list of complete moves and the content of your solution file must be in the <X, Y> board coordinate format like the example below:
 
 1,3 3,3
 
@@ -107,10 +106,3 @@ The GUI branch is the version with a graphical interface and the simple branch i
 The User Guide (README.md) file is in the main branch. \
 The user guide only covers the instructions for the graphic version of the game. The text based version does not need pygame and the run instructions are the same. Guidance for playing the game will be printed to your terminal once you run the text based version of the game.
 
-
-
-
-
-```python
-
-```
