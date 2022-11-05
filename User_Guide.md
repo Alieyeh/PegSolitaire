@@ -89,17 +89,10 @@ The content of your solution file must be in the <X, Y> board coordinate format 
 
 This will move the peg in the 1,3 spot to the 3,3 spot. The coordinate numbers are based on the board below:
 
-&nbsp;&nbsp; 0&nbsp; 1&nbsp; 2&nbsp; 3&nbsp;&nbsp; 4&nbsp; 5&nbsp; 6 → **X** \
-0&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;●&nbsp;&nbsp;●&nbsp;&nbsp;●       	
-1&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;●&nbsp;&nbsp;●&nbsp;&nbsp;●       	
-2 ●&nbsp;&nbsp;●&nbsp;&nbsp;●&nbsp;&nbsp;●&nbsp;&nbsp;●&nbsp;&nbsp;●&nbsp;&nbsp;● 	
-3 ●&nbsp;&nbsp;●&nbsp;&nbsp;●&nbsp;&nbsp;o&nbsp;&nbsp;●&nbsp;&nbsp;●&nbsp;&nbsp;● 	
-4 ●&nbsp;&nbsp;●&nbsp;&nbsp;●&nbsp;&nbsp;●&nbsp;&nbsp;●&nbsp;&nbsp;●&nbsp;&nbsp;● 	
-5&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;●&nbsp;&nbsp;●&nbsp;&nbsp;●       	
-6&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;●&nbsp;&nbsp;●&nbsp;&nbsp;●       	
-↓\
-**Y**
 
+<div>
+<img src="img/coordinates.png" width="400"/>
+</div>
 
 To exit the game, simply click on the close button at the top of your screen. Your game will be logged after it has finished.
 <div>
